@@ -26,3 +26,18 @@ class Plumber(type):
 	
 	def _create_pipeline(self):
 		pass
+
+
+
+if __name__ == '__main__':
+	
+	import Processor from plumber
+	
+	#define a ProcessorGroup
+	class StringFunc:
+		@classmethod
+		async def reverse(cls, self, q_elt:str):
+			print(f'input: {q_elt} \t output: {q_elt[::-1]}')
+
+	# define nodes first
+	n1 = Processor(coro=StringFunc.reverse) 
