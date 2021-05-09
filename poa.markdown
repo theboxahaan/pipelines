@@ -57,25 +57,26 @@ class ProcessorGroup(type): 	# most probably an abstract class
 
 ```python
 
-class Workflow1Funcs(ProcessorGroup):
+class Workflow1Funcs(Processor):
 	"""
-	The coros should be static methods as they should not have a state.
+	The coros should be classmethods as they should use the state of their
+	Processor onject.
 	If they need to maintain a state, they should use the pipeline object
 	that they are associated with
 	"""
 
-	@staticmethod
-	async def method1( q_elem, *args, **kwargs) -> 'pipeline_processor':
+	@classmethod
+	async def method1(cls, self, q_elem, *args, **kwargs) -> 'pipeline_processor':
 		print('method1 called')
 		pass
 
-	@staticmethod
-	async def method2(self, q_elem, *args, **kwargs) -> 'pipeline_processor':
+	@classmethod
+	async def method2(cls, self, q_elem, *args, **kwargs) -> 'pipeline_processor':
 		print('method2 called')
 		pass
 	
-	@staticmethod
-	async def method1(self, q_elem, *args, **kwargs) -> 'pipeline_processor':
+	@classmethod
+	async def method3(cls, self, q_elem, *args, **kwargs) -> 'pipeline_processor':
 		print('method2 called')
 		pass
 ```
