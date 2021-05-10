@@ -20,7 +20,7 @@
 
 ### Test
 ```python
-$ python processor.py
+$ python test_workflow.py
 ```
 The test does the following-
 Set up a test rig for the `Processor` class. This is test rig plays the role of the `Plumber` *(hopefully)*
