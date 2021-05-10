@@ -15,8 +15,8 @@ class Processor:
 				 input_queue:asyncio.Queue=None, 
 				 output_queue:asyncio.Queue=None, 
 				 coro=None, 
-				 input_srcs=None, 
-				 output_dests=None, 
+				 input_srcs:list=None, 
+				 output_dests:list=None, 
 				 *args, **kwargs):
 
 		self.__input_queue = asyncio.Queue() if input_queue is None else input_queue
@@ -115,7 +115,7 @@ class Processor:
 			raise 
 	
 	@property
-	def input_queue(self):
+	def input_queue(self) -> asyncio.Queue:
 		return self.__input_queue
 	
 	# @property.setter
@@ -123,7 +123,7 @@ class Processor:
 	# 	self.output_queue = out_q
 	
 	@property
-	def uuid(self):
+	def uuid(self) -> str:
 		return self.__uuid
 
 	def __repr__(self) -> str:

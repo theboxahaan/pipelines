@@ -14,6 +14,15 @@ class Plumber(type):
 	|      2       |    x    |    x    |    v    |    v    |
 	|      3       |    x    |    x    |    x    |    v    |
 	|      4       |    x    |    x    |    x    |    x    |
+	
+	or equivalently,
+
+	|  input  |   outputs   |
+	-------------------------
+	|    1    |    2 , 3    |
+	|    2    |    3 , 4    |
+	|    3    |    4,       |
+	|    4    |    None     |
 
 	Above graph represents a pipeline where -
 	
