@@ -4,29 +4,39 @@ from processor import Processor
 class ProcessorGroup(type):
 	pass
 
+class StringFunc(ProcessorGroup):
+	@classmethod
+	async def reverse(cls, self, q_elt:tuple):
+		q_elt,  = q_elt 
+		# print(f':. inside classmethod {q_elt}~> {q_elt[::-1]}')
+		return q_elt[::-1]
+	
+	@classmethod
+	async def append_reverse(cls, self, q_elt:tuple):
+		q_elt_1, q_elt_2  = q_elt 
+		# print(f':. inside classmethod {q_elt_1} + {q_elt_2} ~> {q_elt_1[::-1] + q_elt_2[::-1]}')
+		return q_elt_1[::-1] + q_elt_2[::-1]
+	
+	@classmethod
+	async def toupper(cls, self, q_elt:tuple):
+		q_elt, = q_elt
+		return upper(q_elt)
+	
+	@classmethod
+	async def tolower(cls, self, q_elt:tuple):
+		q_elt, = q_elt
+		return lower(q_elt)
+
 
 async def test_rig():
-	
-	class ReverseFunc(ProcessorGroup):
-		@classmethod
-		async def reverse(cls, self, q_elt:tuple):
-			q_elt,  = q_elt 
-			# print(f':. inside classmethod {q_elt}~> {q_elt[::-1]}')
-			return q_elt[::-1]
-		
-		@classmethod
-		async def append_reverse(cls, self, q_elt:tuple):
-			q_elt_1, q_elt_2  = q_elt 
-			# print(f':. inside classmethod {q_elt_1} + {q_elt_2} ~> {q_elt_1[::-1] + q_elt_2[::-1]}')
-			return q_elt_1[::-1] + q_elt_2[::-1]
 
 	input_src = [asyncio.Queue(), asyncio.Queue(), asyncio.Queue()]
 	output_dest = [asyncio.Queue()]
 	print(':. creating test Processor object')
-	_t = Processor(coro = ReverseFunc.reverse, input_srcs=input_src[:1], output_dests=output_dest)
+	_t = Processor(coro = StringFunc.reverse, input_srcs=input_src[:1], output_dests=output_dest)
 	await input_src[0].put('ahaan')
 	
-	_m = Processor(coro = ReverseFunc.append_reverse, input_srcs = input_src[1:], output_dests=output_dest)
+	_m = Processor(coro = StringFunc.append_reverse, input_srcs = input_src[1:], output_dests=output_dest)
 	await input_src[1].put('dabholkar')
 	await input_src[2].put('dabholkar')
 

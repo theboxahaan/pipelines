@@ -138,6 +138,7 @@ class Processor:
 		return f"<Processor:{self.__uuid}, coro:{self.__processor_coro.__qualname__}>"
 	
 	def __str__(self) -> str:
-		return f"<Processor:{self.__uuid}>"
+		return f"<Processor:{self.__uuid};{self.__name}>"
 
-
+	def dump_qs(self):
+		return (self.__input_srcs, self.__output_dests)

@@ -20,7 +20,8 @@ async def main():
 	}
 
 	_t = Plumber(input_d)
-	
+	for _ in _t.dump_nodes():
+		print(f':. name ~> {_.name}., input ~> {_.dump_qs()[0]}, output~> {_.dump_qs()[1]}')
 
 
 
