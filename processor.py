@@ -3,6 +3,8 @@ import asyncio
 import logging
 import traceback
 
+
+
 class Processor:
 	"""
 	Class Processor represents a node in the processing pipeline where
@@ -12,6 +14,7 @@ class Processor:
 	"""
 
 	def __init__(self, 
+				 name:str = None,
 				 input_queue:asyncio.Queue=None, 
 				 output_queue:asyncio.Queue=None, 
 				 coro=None, 
@@ -23,6 +26,7 @@ class Processor:
 		self.__output_queue = asyncio.Queue() if output_queue is None else output_queue
 		self.__processor_coro = coro
 		self.__uuid = str(uuid.uuid4())
+		self.__name = str(name)
 		self.__output_accumulator = []
 		self.__input_srcs = input_srcs
 		self.__output_dests = output_dests
@@ -125,6 +129,10 @@ class Processor:
 	@property
 	def uuid(self) -> str:
 		return self.__uuid
+
+	@property
+	def name(self) -> str:
+		return self.__name
 
 	def __repr__(self) -> str:
 		return f"<Processor:{self.__uuid}, coro:{self.__processor_coro.__qualname__}>"
