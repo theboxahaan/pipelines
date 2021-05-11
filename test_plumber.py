@@ -1,5 +1,5 @@
 import asyncio
-from plumber import Plumber
+from pipelines.plumber import Plumber
 
 
 
@@ -22,8 +22,12 @@ async def main():
 	_t = Plumber(input_d)
 	for _q in _t.nodes:
 		print(f':. name ~> {_q.name}., input ~> {_q.liason_queues[0]}, output~> {_q.liason_queues[1]}')
+	
+	for _q in _t.nodes:
+		print(f":. name ~> {_q.name}, coro ~> {_q.processor_coro}")
 
 
 
 if __name__ == '__main__':
-	asyncio.run(main())
+	asyncio.get_event_loop().create_task(main())
+	asyncio.get_event_loop().run_forever()

@@ -4,7 +4,6 @@ import logging
 import traceback
 
 
-
 class Processor:
 	"""
 	Class Processor represents a node in the processing pipeline where
@@ -86,7 +85,7 @@ class Processor:
 				# acquire a single output elt from the output queue
 				cur_output = await self.__output_queue.get()
 				
-				# put the acquired input inside the Processor's input_queue
+				# put the acquired output inside the Processor's input_queue
 				if output_dest is None or output_dest == []:
 					logging.error('output dests cannot be None or []')
 					raise asyncio.CancelledError
@@ -143,6 +142,9 @@ class Processor:
 	def liason_queues(self) -> tuple:
 		return (self.__input_srcs, self.__output_dests)
 
+	@property
+	def processor_coro(self):
+		return self.__processor_coro
 	def __repr__(self) -> str:
 		return f"<Processor:{self.__uuid}, coro:{self.__processor_coro.__qualname__}>"
 	

@@ -1,5 +1,5 @@
 import asyncio
-from processor import Processor
+from pipelines.processor import Processor
 
 class ProcessorGroup(type):
 	pass
@@ -29,29 +29,35 @@ class StringFunc(ProcessorGroup):
 
 
 async def test_rig():
-
+	
 	input_src = [asyncio.Queue(), asyncio.Queue(), asyncio.Queue()]
 	output_dest = [asyncio.Queue()]
 	print(':. creating test Processor object')
-	_t = Processor(coro = StringFunc.reverse, input_srcs=input_src[:1], output_dests=output_dest)
-	await input_src[0].put('ahaan')
-	
-	_m = Processor(coro = StringFunc.append_reverse, input_srcs = input_src[1:], output_dests=output_dest)
-	await input_src[1].put('dabholkar')
-	await input_src[2].put('dabholkar')
-
-	# start output_dest consumer task that prints items to stdout
-
 	async def dummy_consumer():
 		try:
 			while(True):
-				print(":. [dummy_consumer]", await output_dest[0].get())
+				_elt = await output_dest[0].get()
+				print(":. [dummy_consumer]", _elt)
 		except asyncio.CancelledError:
 			pass
 		except Exception as e:
+			print(e)
 			raise
 	
 	asyncio.create_task(dummy_consumer())
+	_t = Processor(coro = StringFunc.reverse, input_srcs=input_src[:1], output_dests=output_dest)
+	_m = Processor(coro = StringFunc.append_reverse, input_srcs = input_src[1:], output_dests=output_dest)
+	for _ in range(1):
+		await input_src[0].put('ahaan')
+		await asyncio.sleep(1)
+
+	print(_m)
+	await input_src[1].put('dabholkar')
+	await input_src[2].put('dabholkar')
+	print(':. finishd coro')
+	# start output_dest consumer task that prints items to stdout
+
 
 if __name__ == '__main__':
-	asyncio.run(test_rig())
+	asyncio.get_event_loop().create_task(test_rig())
+	asyncio.get_event_loop().run_forever()

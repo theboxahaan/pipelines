@@ -2,8 +2,9 @@ import asyncio
 import logging
 import traceback
 
-import utils
-import processor
+from . import utils
+from . import processor
+
 
 class Plumber:
 	"""
