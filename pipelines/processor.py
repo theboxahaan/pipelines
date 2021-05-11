@@ -145,6 +145,7 @@ class Processor:
 	@property
 	def processor_coro(self):
 		return self.__processor_coro
+
 	def __repr__(self) -> str:
 		return f"<Processor:{self.__uuid}, coro:{self.__processor_coro.__qualname__}>"
 	

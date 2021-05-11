@@ -40,12 +40,17 @@ class Plumber:
 		self.__node_list = []
 		self.__primary_input_q = [asyncio.Queue()]
 		self.__primary_output_q = [asyncio.Queue()]
+
 		self._parse_input_graph(input_d['graph'])
 		self._create_pipeline(input_d['nodes'], self.__liason_q_graph)
 
 	@property
 	def nodes(self) -> list:
 		return self.__node_list
+	
+	@propert
+	def liason_graph(self):
+		return self.__liason_q_graph
 
 	def _create_pipeline(self, nodes_d:dict=None, liason_g:list=None):
 	# caveat - the order of nodes in 'graph' and 'nodes' should be the same

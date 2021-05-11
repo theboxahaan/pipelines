@@ -14,7 +14,6 @@
  └---------┘         └----┐----┘              └----------------┘                    └----┐----┘
                           |                                           accumulator        |     
                           └--------------------------------------------------------------┘     
-
 ```
 #### Points to Keep in Mind
 1. `processor_coro` can be configured only once i.e. function factories are unsupported ??
