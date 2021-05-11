@@ -122,6 +122,11 @@ class Processor:
 	def input_queue(self) -> asyncio.Queue:
 		return self.__input_queue
 	
+	@property
+	def output_queue(self) -> asyncio.Queue:
+		return self.__output_queue
+	
+
 	# @property.setter
 	# def output_queue(self, out_q:asyncio.Queue):
 	# 	self.output_queue = out_q
@@ -134,11 +139,13 @@ class Processor:
 	def name(self) -> str:
 		return self.__name
 
+	@property
+	def liason_queues(self) -> tuple:
+		return (self.__input_srcs, self.__output_dests)
+
 	def __repr__(self) -> str:
 		return f"<Processor:{self.__uuid}, coro:{self.__processor_coro.__qualname__}>"
 	
 	def __str__(self) -> str:
 		return f"<Processor:{self.__uuid};{self.__name}>"
 
-	def dump_qs(self):
-		return (self.__input_srcs, self.__output_dests)

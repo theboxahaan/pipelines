@@ -20,8 +20,8 @@ async def main():
 	}
 
 	_t = Plumber(input_d)
-	for _ in _t.dump_nodes():
-		print(f':. name ~> {_.name}., input ~> {_.dump_qs()[0]}, output~> {_.dump_qs()[1]}')
+	for _q in _t.nodes:
+		print(f':. name ~> {_q.name}., input ~> {_q.liason_queues[0]}, output~> {_q.liason_queues[1]}')
 
 
 

@@ -30,27 +30,35 @@ class Plumber:
 
 	Above graph represents a pipeline where -
 	
-	|input| --> | n1 | --> | n2 | --> | n3 | --> | n4 | --> | output |
-	              |__________|__________^          ^
-	                         |_____________________|
+	| input | --> | n1 | --> | n2 | --> | n3 | --> | n4 | --> | output |
+	                |__________|__________^          ^
+	                           |_____________________|
 	"""
-	def __init__(self, input_d:dict):
+	def __init__(self, input_d:dict = None):
 		self.__liason_q_graph = None 
 		self.__node_list = []
 		self.__primary_input_q = [asyncio.Queue()]
-
+		self.__primary_output_q = [asyncio.Queue()]
 		self._parse_input_graph(input_d['graph'])
 		self._create_pipeline(input_d['nodes'], self.__liason_q_graph)
 
-	def _create_pipeline(self, nodes_d:dict, liason_g:list):
+	@property
+	def nodes(self) -> list:
+		return self.__node_list
+
+	def _create_pipeline(self, nodes_d:dict=None, liason_g:list=None):
 	# caveat - the order of nodes in 'graph' and 'nodes' should be the same
-		for _i, (k,v) in enumerate(nodes_d.items()):
-			_n = processor.Processor(name=k, 
-									 coro=utils.getcoro(v), 
-									 input_srcs=self.__primary_input_q if _i==0 else [ liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None],
-									 output_dests=[ i for i in liason_g[_i] if i is not None ])
-			self.__node_list.append(_n) 
-			
+		try:
+			for _i, (node_name,node_coro) in enumerate(nodes_d.items()):
+				_n = processor.Processor(name=node_name, 
+										 coro=utils.getcoro(node_coro), 
+										 input_srcs=self.__primary_input_q if _i==0 else [ liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None],
+										 output_dests=[ i for i in liason_g[_i] if i is not None ])
+				self.__node_list.append(_n) 
+		
+		except Exception as e:
+			logging.error('[_create_pipeline]\n%s', traceback.format_exc())
+			raise
 	
 	def _check_nodes(self, input_d:dict):
 		try:
@@ -67,22 +75,19 @@ class Plumber:
 		try:
 			ig = [[ None for i in range(len(input_d))] for j in range(len(input_d))]
 
-			for k,v in input_d.items():
-				if v is None:
+			for input_node, output_node_list in input_d.items():
+				if output_node_list is None:
 					continue
-				for i in v :
-					index_k, index_i = list(input_d).index(k), list(input_d).index(i)
+				for node in output_node_list :
+					index_k, index_i = list(input_d).index(input_node), list(input_d).index(node)
 					ig[index_k][index_i] = asyncio.Queue()
 
 			# now we have a 2D representation of the graph storing the liason Qs used
 			# to hold intermediate messages btw nodes
 			self.__liason_q_graph = ig
 			logging.info('%s liason_q_graph\n%s', str(self), ig)
-			#TODO add the graph rendering
+			#TODO add the graph diagram 
 			
 		except Exception as e:
 			logging.error('%s', traceback.format_exc())
 			raise
-
-	def dump_nodes(self):
-		return self.__node_list
