@@ -21,30 +21,30 @@ class Processor:
 				 output_dests:list=None, 
 				 *args, **kwargs):
 
-		self.__input_queue = asyncio.Queue() if input_queue is None else input_queue
-		self.__output_queue = asyncio.Queue() if output_queue is None else output_queue
-		self.__processor_coro = coro
-		self.__uuid = str(uuid.uuid4())
-		self.__name = str(name)
-		self.__output_accumulator = []
-		self.__input_srcs = input_srcs
-		self.__output_dests = output_dests
+		self._input_queue = asyncio.Queue() if input_queue is None else input_queue
+		self._output_queue = asyncio.Queue() if output_queue is None else output_queue
+		self._processor_coro = coro
+		self._uuid = str(uuid.uuid4())
+		self._name = str(name)
+		self._output_accumulator = []
+		self._input_srcs = input_srcs
+		self._output_dests = output_dests
 
-		self.__input_handler_task = asyncio.create_task( 
-			self.__input_handler(self.__input_srcs),
-			name=self.__uuid + self.__input_handler.__qualname__)
+		self._input_handler_task = asyncio.create_task( 
+			self._input_handler(self._input_srcs),
+			name=self._uuid + self._input_handler.__qualname__)
 
-		self.__processor_task = asyncio.create_task(
+		self._processor_task = asyncio.create_task(
 			self._processor(*args, **kwargs),
-			name=self.__uuid + self.__processor_coro.__qualname__)
+			name=self._uuid + self._processor_coro.__qualname__)
 
-		self.__output_handler_task = asyncio.create_task(
-			self.__output_handler(self.__output_dests),
-			name=self.__uuid + self.__output_handler.__qualname__)
+		self._output_handler_task = asyncio.create_task(
+			self._output_handler(self._output_dests),
+			name=self._uuid + self._output_handler.__qualname__)
 
 		logging.info('instantiated %s', str(self))
 
-	async def __input_handler(self, input_src:list=None):
+	async def _input_handler(self, input_src:list=None):
 		"""
 		Helper Function to handle multiple input sources and populate 
 		the input_queue of each Processor object. 
@@ -66,7 +66,7 @@ class Processor:
 					cur_input.append(await _src.get())
 				
 				# put the acquired input inside the Processor's input_queue
-				await self.__input_queue.put(tuple(cur_input))
+				await self._input_queue.put(tuple(cur_input))
 
 		except asyncio.CancelledError:
 			logging.warning('%s input_handler cancelled', str(self))
@@ -74,7 +74,7 @@ class Processor:
 			logging.error('[input_handler]\n%s', traceback.format_exc())
 			raise 
 
-	async def __output_handler(self, output_dest:list=None):
+	async def _output_handler(self, output_dest:list=None):
 		"""
 		Helper Function to handle multiple output destinations and populate 
 		the output_queue of each Processor object. 
@@ -83,7 +83,7 @@ class Processor:
 			logging.info('%s started output handler...', repr(self))
 			while(True):
 				# acquire a single output elt from the output queue
-				cur_output = await self.__output_queue.get()
+				cur_output = await self._output_queue.get()
 				
 				# put the acquired output inside the Processor's input_queue
 				if output_dest is None or output_dest == []:
@@ -104,12 +104,12 @@ class Processor:
 		try:
 			logging.info('%s started processor ...', repr(self))
 			while(True):
-				_temp = await self.__input_queue.get()
-				_temp = await self.__processor_coro(self, _temp, *args, **kwargs)
-				if self.__output_queue is None:
-					self.__output_accumulator.append(_temp)
+				_temp = await self._input_queue.get()
+				_temp = await self._processor_coro(self, _temp, *args, **kwargs)
+				if self._output_queue is None:
+					self._output_accumulator.append(_temp)
 				else:
-					await self.__output_queue.put(_temp)
+					await self._output_queue.put(_temp)
 
 		except asyncio.CancelledError:
 			logging.warning('%s processor cancelled', str(self))
@@ -119,11 +119,11 @@ class Processor:
 	
 	@property
 	def input_queue(self) -> asyncio.Queue:
-		return self.__input_queue
+		return self._input_queue
 	
 	@property
 	def output_queue(self) -> asyncio.Queue:
-		return self.__output_queue
+		return self._output_queue
 	
 
 	# @property.setter
@@ -132,23 +132,31 @@ class Processor:
 	
 	@property
 	def uuid(self) -> str:
-		return self.__uuid
+		return self._uuid
 
 	@property
 	def name(self) -> str:
-		return self.__name
+		return self._name
 
 	@property
 	def liason_queues(self) -> tuple:
-		return (self.__input_srcs, self.__output_dests)
+		return (self._input_srcs, self._output_dests)
 
 	@property
 	def processor_coro(self):
-		return self.__processor_coro
+		return self._processor_coro
+	
+	@property
+	def input_queue(self):
+		return self._input_queue
 
+	@property
+	def output_queue(self):
+		return self._output_queue
+	
 	def __repr__(self) -> str:
-		return f"<Processor:{self.__uuid}, coro:{self.__processor_coro.__qualname__}>"
+		return f"<Processor:{self._uuid}, coro:{self._processor_coro.__qualname__}>"
 	
 	def __str__(self) -> str:
-		return f"<Processor:{self.__uuid};{self.__name}>"
+		return f"<Processor:{self._uuid};{self._name}>"
 
