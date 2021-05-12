@@ -36,6 +36,8 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 2. Finalise `Plumber` design
 3. Think about input specifications. Graph representations look good RN.
 4. Write a pipelines viewer if I get time.
-5. Write Input Rigs i.e. class with no inputQs and only outputs 
+5. ~~Write Input Rigs i.e. class with no inputQs and only outputs~~ 
 6. Add signal handler to handle script exit
 7. ~~Add tests for Processor and Plumber~~
+8. Pass args through input ?
+9. Write a proper mechanism for getting function object from string
