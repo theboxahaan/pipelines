@@ -4,7 +4,6 @@ import traceback
 
 from . import utils
 from . import processor
-from . import input_rig
 
 class Plumber:
 	"""
@@ -63,9 +62,9 @@ class Plumber:
 						input_srcs=c_input_srcs,
 						output_dests=c_output_dests)
 				if c_input_srcs == []:
-					_n = input_rig.InputRig(**kwargs)
+					_n = processor.InputProcessor(**kwargs)
 				elif c_output_dests == []:
-					_n = input_rig.OutputRig(**kwargs)
+					_n = processor.Processor(**kwargs)
 				else:
 					_n = processor.Processor(**kwargs) 
 				self.__node_list.append(_n) 

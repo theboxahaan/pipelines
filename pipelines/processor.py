@@ -3,7 +3,6 @@ import asyncio
 import logging
 import traceback
 
-
 class Processor:
 	"""
 	Class Processor represents a node in the processing pipeline where
@@ -57,10 +56,11 @@ class Processor:
 			logging.info('%s started input handler...', repr(self))
 			while(True):
 
-				# acquire a single input elt from each of the sources
+				# acquire a single input elt from each of the source
+				# (liason q's)
 				cur_input = []
-				if input_src is None:
-					logging.error('input sources cannot be None')
+				if input_src is None or input_src == []:
+					logging.error('input sources cannot be None or [] ... exiting input_handler')
 					raise asyncio.CancelledError
 				for _src in input_src:
 					cur_input.append(await _src.get())
@@ -82,16 +82,17 @@ class Processor:
 		try:
 			logging.info('%s started output handler...', repr(self))
 			while(True):
+
+				if output_dest is None or output_dest == []:
+					logging.error('output dests cannot be None or [] ... exiting output_handler')
+					raise asyncio.CancelledError
+
 				# acquire a single output elt from the output queue
 				cur_output = await self._output_queue.get()
 				
-				# put the acquired output inside the Processor's input_queue
-				if output_dest is None or output_dest == []:
-					logging.error('output dests cannot be None or []')
-					raise asyncio.CancelledError
-				else:
-					for _dest in output_dest:
-						await _dest.put(cur_output)
+				# put the acquired output into the dest(liason) q's
+				for _dest in output_dest:
+					await _dest.put(cur_output)
 					
 		except asyncio.CancelledError:
 			logging.warning('%s output_handler cancelled', str(self))
@@ -125,11 +126,6 @@ class Processor:
 	def output_queue(self) -> asyncio.Queue:
 		return self._output_queue
 	
-
-	# @property.setter
-	# def output_queue(self, out_q:asyncio.Queue):
-	# 	self.output_queue = out_q
-	
 	@property
 	def uuid(self) -> str:
 		return self._uuid
@@ -160,3 +156,14 @@ class Processor:
 	def __str__(self) -> str:
 		return f"<Processor:{self._uuid};{self._name}>"
 
+
+class InputProcessor(Processor):
+	
+	async def _processor(self, *args, **kwargs):
+		try:
+			logging.info('%s starting IO processor ...', repr(self))
+			await self._processor_coro(self, self._output_queue, *args, **kwargs)
+		
+		except Exception as e:
+			logging.error('[processor]\n%s', traceback.format_exc())
+			
