@@ -6,12 +6,14 @@ from pipelines.plumber import Plumber
 async def main():
 	input_d = {
 		'nodes': {
+			'inp': 'StringFunc.input_str',
 			'n1' : 'StringFunc.reverse' ,
 			'n2' : 'StringFunc.toupper',
 			'n3' : 'StringFunc.tolower',
-			'n4' : 'StringFunc.reverse',
+			'n4' : 'StringFunc.output_str',
 		},
 		'graph': {
+			'inp': ('n1',),
 			'n1' : ('n2', 'n3'),
 			'n2' : ('n3', 'n4'),
 			'n3' : ('n4',),

@@ -5,7 +5,11 @@ def getcoro(name:str):
 		'StringFunc.reverse' : StringFunc.reverse,
 		'StringFunc.toupper' : StringFunc.toupper,
 		'StringFunc.tolower' : StringFunc.tolower,
+		'StringFunc.input_str': StringFunc.input_str,
+		'StringFunc.output_str': StringFunc.output_str,
+
 	}
+
 
 	return d[name]
 

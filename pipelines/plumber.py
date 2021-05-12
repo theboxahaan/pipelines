@@ -4,7 +4,7 @@ import traceback
 
 from . import utils
 from . import processor
-
+from . import input_rig
 
 class Plumber:
 	"""
@@ -48,7 +48,7 @@ class Plumber:
 	def nodes(self) -> list:
 		return self.__node_list
 	
-	@propert
+	@property
 	def liason_graph(self):
 		return self.__liason_q_graph
 
@@ -56,10 +56,18 @@ class Plumber:
 	# caveat - the order of nodes in 'graph' and 'nodes' should be the same
 		try:
 			for _i, (node_name,node_coro) in enumerate(nodes_d.items()):
-				_n = processor.Processor(name=node_name, 
-										 coro=utils.getcoro(node_coro), 
-										 input_srcs=self.__primary_input_q if _i==0 else [ liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None],
-										 output_dests=[ i for i in liason_g[_i] if i is not None ])
+				c_input_srcs = [ liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None]
+				c_output_dests = [ i for i in liason_g[_i] if i is not None ]
+				kwargs=dict(name=node_name, 
+						coro=utils.getcoro(node_coro), 
+						input_srcs=c_input_srcs,
+						output_dests=c_output_dests)
+				if c_input_srcs == []:
+					_n = input_rig.InputRig(**kwargs)
+				elif c_output_dests == []:
+					_n = input_rig.OutputRig(**kwargs)
+				else:
+					_n = processor.Processor(**kwargs) 
 				self.__node_list.append(_n) 
 		
 		except Exception as e:
