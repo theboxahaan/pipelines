@@ -41,3 +41,4 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 7. ~~Add tests for Processor and Plumber~~
 8. ~~Pass args through input ?~~
 9. Write a proper mechanism for getting function object from string
+10. `Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.
