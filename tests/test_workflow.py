@@ -1,6 +1,7 @@
 import asyncio
 from pipelines.processor import Processor
 import uuid
+import itertools
 
 class ProcessorGroup(type):
 	pass
@@ -14,6 +15,7 @@ class StringFunc(ProcessorGroup):
 			acc.append(str(uuid.uuid4()))
 		
 		for i in acc:
+			print(f":. input ~> {i}")
 			await q_out.put(i)
 			await asyncio.sleep(acc.index(i) % 4)
 	
@@ -22,9 +24,11 @@ class StringFunc(ProcessorGroup):
 		print('output_str: ', q_elt)
 
 	@classmethod
-	async def reverse(cls, self, q_elt:tuple):
+	async def reverse(cls, self, q_elt:tuple, idx=itertools.count()):
 		# print(f':. inside classmethod {q_elt}~> {q_elt[::-1]}')
+		await asyncio.sleep(next(idx))
 		return q_elt[0][::-1]
+
 	
 	@classmethod
 	async def append_reverse(cls, self, q_elt:tuple):
