@@ -1,6 +1,7 @@
 from test_workflow import StringFunc 
+import asyncio
 
-def getcoro(name:str):
+def getcoro(name):
 	d = {
 		'StringFunc.reverse' : StringFunc.reverse,
 		'StringFunc.toupper' : StringFunc.toupper,
@@ -10,8 +11,10 @@ def getcoro(name:str):
 
 	}
 
-
-	return d[name]
+	if callable(name):
+		return name
+	else:
+		return d[name]
 
 
 if __name__ == '__main__':

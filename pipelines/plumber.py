@@ -91,7 +91,7 @@ class Plumber:
 			for input_node, output_node_list in input_d.items():
 				if output_node_list is None:
 					continue
-				for node in output_node_list :
+				for node in output_node_list:
 					index_k, index_i = list(input_d).index(input_node), list(input_d).index(node)
 					ig[index_k][index_i] = asyncio.Queue()
 

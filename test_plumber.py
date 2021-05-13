@@ -1,13 +1,13 @@
 import asyncio
 from pipelines.plumber import Plumber
-
+from test_workflow import StringFunc
 
 
 async def main():
 	input_d = {
 		'nodes': {
-			'inp': 'StringFunc.input_str',
-			'n1' : 'StringFunc.reverse' ,
+			'inp': StringFunc.input_str,
+			'n1' : StringFunc.reverse ,
 			'n2' : 'StringFunc.toupper',
 			'n3' : 'StringFunc.tolower',
 			'n4' : 'StringFunc.output_str',
