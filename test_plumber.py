@@ -6,11 +6,11 @@ from test_workflow import StringFunc
 async def main():
 	input_d = {
 		'nodes': {
-			'inp': StringFunc.input_str,
-			'n1' : StringFunc.reverse ,
-			'n2' : 'StringFunc.toupper',
-			'n3' : 'StringFunc.tolower',
-			'n4' : 'StringFunc.output_str',
+			'inp': {'coro': StringFunc.input_str, 'args': { 'num': 20 }},
+			'n1' : {'coro': StringFunc.reverse }, 
+			'n2' : {'coro': 'StringFunc.toupper'},
+			'n3' : {'coro': 'StringFunc.tolower'},
+			'n4' : {'coro': 'StringFunc.output_str'},
 		},
 		'graph': {
 			'inp': ('n1',),
@@ -27,7 +27,6 @@ async def main():
 	
 	for _q in _t.nodes:
 		print(f":. name ~> {_q.name}, coro ~> {_q.processor_coro}")
-
 
 
 if __name__ == '__main__':

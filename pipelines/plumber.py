@@ -54,19 +54,19 @@ class Plumber:
 	def _create_pipeline(self, nodes_d:dict=None, liason_g:list=None):
 	# caveat - the order of nodes in 'graph' and 'nodes' should be the same
 		try:
-			for _i, (node_name,node_coro) in enumerate(nodes_d.items()):
+			for _i, (node_name,node_d) in enumerate(nodes_d.items()):
 				c_input_srcs = [ liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None]
 				c_output_dests = [ i for i in liason_g[_i] if i is not None ]
 				kwargs=dict(name=node_name, 
-						coro=utils.getcoro(node_coro), 
+						coro=utils.getcoro(node_d['coro']), 
 						input_srcs=c_input_srcs,
 						output_dests=c_output_dests)
+				f_kwargs=node_d.get('args', {})		
+				logging.info('%s has f_kwargs %s', node_name, f_kwargs)
 				if c_input_srcs == []:
-					_n = processor.InputProcessor(**kwargs)
-				elif c_output_dests == []:
-					_n = processor.Processor(**kwargs)
+					_n = processor.InputProcessor(**kwargs, **f_kwargs)
 				else:
-					_n = processor.Processor(**kwargs) 
+					_n = processor.Processor(**kwargs, **f_kwargs)
 				self.__node_list.append(_n) 
 		
 		except Exception as e:

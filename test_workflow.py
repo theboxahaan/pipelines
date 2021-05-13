@@ -8,9 +8,9 @@ class ProcessorGroup(type):
 class StringFunc(ProcessorGroup):
 	
 	@classmethod
-	async def input_str(cls, self, q_out):
+	async def input_str(cls, self, q_out, num:int=None):
 		acc = []
-		for _ in range(20):
+		for _ in range(num):
 			acc.append(str(uuid.uuid4()))
 		
 		for i in acc:
