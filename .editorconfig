@@ -1,4 +1,9 @@
-indent_style = tab
+root = true
+
+[*]
 charset = utf-8
+
+[*.py]
+indent_style = tab
 indent_size = 4
 
