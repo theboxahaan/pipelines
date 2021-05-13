@@ -1,7 +1,7 @@
 import asyncio
 from pipelines.plumber import Plumber
 from test_workflow import StringFunc
-
+from pipelines.utils import getcoro
 
 async def main():
 	input_d = {
@@ -21,7 +21,7 @@ async def main():
 		},
 	}
 
-	_t = Plumber(input_d)
+	_t = Plumber(input_d, coro_map = getcoro )
 	for _q in _t.nodes:
 		print(f':. name ~> {_q.name}., input ~> {_q.liason_queues[0]}, output~> {_q.liason_queues[1]}')
 	

@@ -20,14 +20,14 @@ class Processor:
 				 output_dests:list=None, 
 				 *args, **kwargs):
 
-		self._input_queue = asyncio.Queue() if input_queue is None else input_queue
-		self._output_queue = asyncio.Queue() if output_queue is None else output_queue
-		self._processor_coro = coro
-		self._uuid = str(uuid.uuid4())
-		self._name = str(name)
+		self._input_queue        = asyncio.Queue() if input_queue is None else input_queue
+		self._output_queue       = asyncio.Queue() if output_queue is None else output_queue
+		self._processor_coro     = coro
+		self._uuid               = str(uuid.uuid4())
+		self._name               = str(name)
 		self._output_accumulator = []
-		self._input_srcs = input_srcs
-		self._output_dests = output_dests
+		self._input_srcs         = input_srcs
+		self._output_dests       = output_dests
 
 		self._input_handler_task = asyncio.create_task( 
 			self._input_handler(self._input_srcs),

@@ -2,43 +2,45 @@ import asyncio
 import logging
 import traceback
 
-from . import utils
 from . import processor
 
 class Plumber:
 	"""
-	class Plumber - Helper class to contruct pipelines of Processors according
-	to the specified input
+	Class that instruments Processor instances and creates data pipelines according
+	to the provided graph.
 	
 	Input
 	-----
-	| input/output |    1    |    2    |    3    |    4    |
-	--------------------------------------------------------
-	|      1       |    x    |    v    |    v    |    x    |
-	|      2       |    x    |    x    |    v    |    v    |
-	|      3       |    x    |    x    |    x    |    v    |
-	|      4       |    x    |    x    |    x    |    x    |
-	
-	or equivalently,
-
-	|  input  |   outputs   |
-	-------------------------
-	|    1    |    2 , 3    |
-	|    2    |    3 , 4    |
-	|    3    |    4,       |
-	|    4    |    None     |
-
-	Above graph represents a pipeline where -
-	
-	| input | --> | n1 | --> | n2 | --> | n3 | --> | n4 | --> | output |
-	                |__________|__________^          ^
-	                           |_____________________|
+	1. input_d:dict - This dictionary specifies the graph and node configurations
+	   input_d = {
+	       'nodes': {
+		       'node_name'<str> : {'coro':<str>/<object>,
+			                       'args':{<arguments to the specified coro>},
+								  },
+			   ...
+		   },
+		   'graph': {
+		       'node_name'<str> : ('node_name_1', ...) <tuple of node names> or None,
+			   ...
+		   }
+	   }
+	2. coro_map: callable function - A function that maps the input_d['nodes'][<key>] object
+	                                 to a callable function object with the following signature.
+	   
+	   def callable(coro_name:object) -> function(self:Processor, q_elt or q_out, **args)
+	   
+	   :. Here `self` refers to the Processor object on which the coro is running, `q_elt` is
+	      an item from the input queue (or it is the output_queue in which data is to be pushed
+		  for InputProcessor)
 	"""
-	def __init__(self, input_d:dict = None):
-		self.__liason_q_graph = None 
-		self.__node_list = []
-		self.__primary_input_q = [asyncio.Queue()]
+
+
+	def __init__(self, input_d:dict=None, coro_map=None):
+		self.__liason_q_graph   = None 
+		self.__node_list        = []
+		self.__primary_input_q  = [asyncio.Queue()]
 		self.__primary_output_q = [asyncio.Queue()]
+		self.__coro_map         = coro_map
 
 		self._parse_input_graph(input_d['graph'])
 		self._create_pipeline(input_d['nodes'], self.__liason_q_graph)
@@ -58,7 +60,7 @@ class Plumber:
 				c_input_srcs = [ liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None]
 				c_output_dests = [ i for i in liason_g[_i] if i is not None ]
 				kwargs=dict(name=node_name, 
-						coro=utils.getcoro(node_d['coro']), 
+						coro=self.__coro_map(node_d['coro']), 
 						input_srcs=c_input_srcs,
 						output_dests=c_output_dests)
 				f_kwargs=node_d.get('args', {})		
@@ -84,7 +86,6 @@ class Plumber:
 	def _parse_input_graph(self, input_d:dict):
 		# input_d := input_d[''graph]	
 		# check for cycles skipped; will need to add later
-		# check for bad nodes here i.e no inputs but outputs
 		try:
 			ig = [[ None for i in range(len(input_d))] for j in range(len(input_d))]
 
