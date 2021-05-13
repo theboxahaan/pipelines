@@ -14,15 +14,15 @@ class Plumber:
 	1. input_d:dict - This dictionary specifies the graph and node configurations
 	   input_d = {
 	       'nodes': {
-		       'node_name'<str> : {'coro':<str>/<object>,
-			                       'args':{<arguments to the specified coro>},
-								  },
-			   ...
-		   },
-		   'graph': {
-		       'node_name'<str> : ('node_name_1', ...) <tuple of node names> or None,
-			   ...
-		   }
+	            'node_name'<str> : { 'coro':<str>/<object>,
+	                                 'args':{<arguments to the specified coro>},
+	            },
+	            ...
+	       },
+	       'graph': {
+	           'node_name'<str> : ('node_name_1', ...) <tuple of node names> or None,
+	           ...
+	       }
 	   }
 	2. coro_map: callable function - A function that maps the input_d['nodes'][<key>] object
 	                                 to a callable function object with the following signature.
