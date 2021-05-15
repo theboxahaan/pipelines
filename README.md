@@ -11,9 +11,9 @@
                      | handler |      └-------------┘         └--------------┘      | handler |
  ┌---------┐         |         |        |     ┌----------------┐    ^               |         |
  | inputQ2 |  ---->  |         |        └---> | processor_coro | ---┘               |         |
- └---------┘         └----┐----┘              └----------------┘                    └----┐----┘
-                          |                                           accumulator        |     
-                          └--------------------------------------------------------------┘     
+ └---------┘         └----┐----┘              └----------------┘    ┌-------------┐ └----┐----┘
+                          |                                         | accumulator |      |     
+                          └-----------------------------------------└-------------┘------┘     
 ```
 #### Points to Keep in Mind
 1. `processor_coro` can be configured only once i.e. function factories are unsupported ??
@@ -47,3 +47,4 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 13. Write a demo with `aiohttp` or something...
 14. Add option for **non-aggregated** input for multi-input `Processor`s
 15. Add an `Event` lock on `Processor`s to control pipelines.
+16. Backpressure testing ??? How do I do that ?
