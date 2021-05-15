@@ -85,4 +85,8 @@ class Workflow1Funcs(Processor):
 
 ### The `Pipeline` Creator - Creating Pipelines using `client` input and a `ProcessorGroup` subclass
 
+---------------
 
+### How to deal with `backpressure` ?
+- Try a generator based input mech. and the consumer queue controlling the rate of generation...
+- Limit the Queue maxsize to avoid unending buffer problems
