@@ -43,7 +43,7 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 9. ~~Write a proper mechanism for getting function object from string~~
 10. `Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.
 11. Make a `TypeVar` for Queues
-12. Write cleanup coros
+12. Write cleanup coros -- first introduce types of Queues
 13. Write a demo with `aiohttp` or something...
 14. Add option for **non-aggregated** input for multi-input `Processor`s
 15. Add an `Event` lock on `Processor`s to control pipelines.
