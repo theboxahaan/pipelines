@@ -89,13 +89,20 @@ class Plumber:
 		try:
 			input_d_graph = input_d['graph']
 			ig = [[ None for i in range(len(input_d_graph))] for j in range(len(input_d_graph))]
-
+			# agg_input_dict is a helper data structure to store the asyncio.Queue object if aggregating
+			# inputs. The same Q object is used so that when creating a set in _create_pipeline the repetition
+			# is taken care of
+			agg_input_dict = {}
 			for input_node, output_node_list in input_d_graph.items():
 				if output_node_list is None:
 					continue
 				for node in output_node_list:
 					index_k, index_i = list(input_d_graph).index(input_node), list(input_d_graph).index(node)
-					ig[index_k][index_i] = asyncio.Queue()
+					if not input_d['nodes'][node].get('properties',{}).get('aggregate_inputs', True):
+						ig[index_k][index_i] = agg_input_dict[node] if agg_input_dict.get(node, None) is not None else asyncio.Queue()
+						agg_input_dict[node] = ig[index_k][index_i] 
+					else:
+						ig[index_k][index_i] = asyncio.Queue()
 
 			# now we have a 2D representation of the graph storing the liason Qs used
 			# to hold intermediate messages btw nodes

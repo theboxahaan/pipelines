@@ -10,7 +10,7 @@ async def main():
 			'n1' : {'coro': StringFunc.reverse }, 
 			'n2' : {'coro': 'StringFunc.toupper'},
 			'n3' : {'coro': 'StringFunc.tolower'},
-			'n4' : {'coro': 'StringFunc.output_str'},
+			'n4' : {'coro': 'StringFunc.output_str', 'properties': {'aggregate_inputs': False}},
 		},
 		'graph': {
 			'inp': ('n1',),
