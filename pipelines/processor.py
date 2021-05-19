@@ -16,8 +16,8 @@ class Processor:
 				 input_queue:asyncio.Queue=None, 
 				 output_queue:asyncio.Queue=None, 
 				 coro=None, 
-				 input_srcs:list=None, 
-				 output_dests:list=None, 
+				 input_srcs:set=None, 
+				 output_dests:set=None, 
 				 *args, **kwargs):
 
 		self._input_queue        = asyncio.Queue() if input_queue is None else input_queue
@@ -43,7 +43,7 @@ class Processor:
 
 		logging.info('instantiated %s', str(self))
 
-	async def _input_handler(self, input_src:list=None):
+	async def _input_handler(self, input_src:set=None):
 		"""
 		Helper Function to handle multiple input sources and populate 
 		the input_queue of each Processor object. 
@@ -59,8 +59,8 @@ class Processor:
 				# acquire a single input elt from each of the source
 				# (liason q's)
 				cur_input = []
-				if input_src is None or input_src == []:
-					logging.error('input sources cannot be None or [] ... exiting input_handler')
+				if input_src is None or len(input_src) == 0:
+					logging.error('input sources cannot be None or empty set ... exiting input_handler')
 					raise asyncio.CancelledError
 				for _src in input_src:
 					cur_input.append(await _src.get())
@@ -74,7 +74,7 @@ class Processor:
 			logging.error('[input_handler]\n%s', traceback.format_exc())
 			raise 
 
-	async def _output_handler(self, output_dest:list=None):
+	async def _output_handler(self, output_dest:set=None):
 		"""
 		Helper Function to handle multiple output destinations and populate 
 		the output_queue of each Processor object. 
@@ -83,8 +83,8 @@ class Processor:
 			logging.info('%s started output handler...', repr(self))
 			while(True):
 
-				if output_dest is None or output_dest == []:
-					logging.error('output dests cannot be None or [] ... exiting output_handler')
+				if output_dest is None or len(output_dest) == 0:
+					logging.error('output dests cannot be None or empty set ... exiting output_handler')
 					raise asyncio.CancelledError
 
 				# acquire a single output elt from the output queue
