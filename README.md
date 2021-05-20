@@ -16,6 +16,7 @@
 ```
 ### Demo
 **Prerequisites** - `socketio`, `aiohttp` 
+
 To run the demo navigate to `demos` directory and execute the followingi-
 
 *To start the Server*
@@ -44,19 +45,19 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 2. The input to the `reverse` processor is a single queue, while the `append_reverse` processor takes input from 2 different queues.
 
 ### Todo's
-1. Add `doomsdayQueues` for clean task cancellation
-2. ~~Finalise `Plumber` design~~
-3. ~~Think about input specifications. Graph representations look good RN.~~
-4. Write a pipelines viewer if I get time.
-5. ~~Write Input Rigs i.e. class with no inputQs and only outputs~~ 
-6. Add signal handler to handle script exit
-7. ~~Add tests for Processor and Plumber~~
-8. ~~Pass args through input ?~~
-9. ~~Write a proper mechanism for getting function object from string~~
-10. ~~`Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.~~
-11. Make a `TypeVar` for Queues
-12. **Write cleanup coros** -- first introduce types of Queues
-13. ~~Write a demo with `aiohttp` or something...~~
-14. ~~Add option for **non-aggregated** input for multi-input `Processor`s -- is there a need for this ??~~
-15. Add an `Event` lock on `Processor`s to control pipelines.
-16. Backpressure testing ??? How do I do that ?
+- [ ]  Add `doomsdayQueues` for clean task cancellation
+- [x]  Finalise `Plumber` design
+- [x]  Think about input specifications. Graph representations look good RN
+- [ ]  Write a pipelines viewer if I get time.
+- [x]  Write Input Rigs i.e. class with no inputQs and only outputs 
+- [ ]  Add signal handler to handle script exit
+- [x]  Add tests for Processor and Plumber
+- [x]  Pass args through input ?
+- [x]  Write a proper mechanism for getting function object from string~~
+- [x]  `Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.~~
+- [ ]  Make a `TypeVar` for Queues
+- [ ]  **Write cleanup coros** -- first introduce types of Queues
+- [x]  Write a demo with `aiohttp` or something...
+- [x]  Add option for **non-aggregated** input for multi-input `Processor`s -- is there a need for this ??
+- [ ]  Add an `Event` lock on `Processor`s to control pipelines.
+- [ ]  Backpressure testing ??? How do I do that ?
