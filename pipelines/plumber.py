@@ -99,7 +99,7 @@ class Plumber:
 				for node in output_node_list:
 					index_k, index_i = list(input_d_graph).index(input_node), list(input_d_graph).index(node)
 					if not input_d['nodes'][node].get('properties',{}).get('aggregate_inputs', True):
-						ig[index_k][index_i] = agg_input_dict[node] if agg_input_dict.get(node, None) is not None else asyncio.Queue()
+						ig[index_k][index_i] = agg_input_dict.get(node, asyncio.Queue())
 						agg_input_dict[node] = ig[index_k][index_i] 
 					else:
 						ig[index_k][index_i] = asyncio.Queue()
