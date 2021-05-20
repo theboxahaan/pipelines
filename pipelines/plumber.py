@@ -31,16 +31,21 @@ class Plumber:
 	   
 	   :. Here `self` refers to the Processor object on which the coro is running, `q_elt` is
 	      an item from the input queue (or it is the output_queue in which data is to be pushed
-		  for InputProcessor)
+	     for InputProcessor)
+
+	3. env_vars: dict - Since the Processor class is never explicitly instantiated by the user,
+	                    env_vars is used to provided a reference to those variables. This dict 
+ 	                    is searched by Processor when an attr
 	"""
 
 
-	def __init__(self, input_d:dict=None, coro_map=None):
+	def __init__(self, input_d:dict=None, coro_map=None, env_vars:dict=None):
 		self.__liason_q_graph   = None 
 		self.__node_list        = []
 		self.__primary_input_q  = [asyncio.Queue()]
 		self.__primary_output_q = [asyncio.Queue()]
 		self.__coro_map         = coro_map
+		self.__env_vars         = env_vars
 
 		self._parse_input_graph(input_d)
 		self._create_pipeline(input_d['nodes'], self.__liason_q_graph)
@@ -62,7 +67,8 @@ class Plumber:
 				kwargs=dict(name=node_name, 
 						coro=self.__coro_map(node_d['coro']), 
 						input_srcs=c_input_srcs,
-						output_dests=c_output_dests)
+						output_dests=c_output_dests,
+						env_vars=self.__env_vars)
 				f_kwargs=node_d.get('args', {})		
 				logging.info('%s has f_kwargs %s', node_name, f_kwargs)
 				if len(c_input_srcs) == 0:

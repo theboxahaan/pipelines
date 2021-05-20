@@ -18,6 +18,7 @@ class Processor:
 				 coro=None, 
 				 input_srcs:set=None, 
 				 output_dests:set=None, 
+				 env_vars:dict=None,
 				 *args, **kwargs):
 
 		self._input_queue        = asyncio.Queue() if input_queue is None else input_queue
@@ -28,6 +29,7 @@ class Processor:
 		self._output_accumulator = []
 		self._input_srcs         = input_srcs
 		self._output_dests       = output_dests
+		self.env_vars            = env_vars
 
 		self._input_handler_task = asyncio.create_task( 
 			self._input_handler(self._input_srcs),
