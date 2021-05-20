@@ -1,7 +1,21 @@
 import asyncio
 from pipelines.plumber import Plumber
 from test_workflow import StringFunc
-from pipelines.utils import getcoro
+
+def getcoro(name):
+	d = {
+		'StringFunc.reverse' : StringFunc.reverse,
+		'StringFunc.toupper' : StringFunc.toupper,
+		'StringFunc.tolower' : StringFunc.tolower,
+		'StringFunc.input_str': StringFunc.input_str,
+		'StringFunc.output_str': StringFunc.output_str,
+
+	}
+
+	if callable(name):
+		return name
+	else:
+		return d[name]
 
 async def main():
 	input_d = {
