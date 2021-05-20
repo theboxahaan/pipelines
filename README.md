@@ -14,6 +14,19 @@
                           |                                         | accumulator |      |     
                           └-----------------------------------------└-------------┘------┘     
 ```
+### Demo
+**Prerequisites** - `socketio`, `aiohttp` 
+To run the demo navigate to `demos` directory and execute the followingi-
+
+*To start the Server*
+```python
+$ python server.py
+```
+*To start the Client*
+```python
+$ python client.py
+```
+
 #### Points to Keep in Mind
 1. `processor_coro` can be configured only once i.e. function factories are unsupported ??
 
@@ -40,11 +53,10 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 7. ~~Add tests for Processor and Plumber~~
 8. ~~Pass args through input ?~~
 9. ~~Write a proper mechanism for getting function object from string~~
-10. `Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.
+10. ~~`Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.~~
 11. Make a `TypeVar` for Queues
-12. Write cleanup coros -- first introduce types of Queues
-13. Write a demo with `aiohttp` or something...
+12. **Write cleanup coros** -- first introduce types of Queues
+13. ~~Write a demo with `aiohttp` or something...~~
 14. ~~Add option for **non-aggregated** input for multi-input `Processor`s -- is there a need for this ??~~
 15. Add an `Event` lock on `Processor`s to control pipelines.
 16. Backpressure testing ??? How do I do that ?
-17. Write a shim for converting `request-scheduler` inputs to `input_d`
