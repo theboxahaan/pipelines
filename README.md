@@ -1,5 +1,13 @@
 ## `pipelines` -- Create Async Processing Pipelines Quick
+```bash
+       _         _ _             
+   ___|_|___ ___| |_|___ ___ ___ 
+  | . | | . | -_| | |   | -_|_ -|
+  |  _|_|  _|___|_|_|_|_|___|___|
+  |_|   |_|                      
 
+
+```
 
 ### class `Processor`
 ```
