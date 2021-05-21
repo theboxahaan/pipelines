@@ -1,4 +1,6 @@
-## `pipelines` -- Create Async Processing Pipelines Quick
+# `pipelines` -- Create Async Processing Pipelines Quick
+A library to create async pipelines quickly...
+
 ```bash
        _         _ _             
    ___|_|___ ___| |_|___ ___ ___ 
@@ -8,6 +10,40 @@
 
 
 ```
+
+---------------
+
+### Demo
+**Prerequisites** - `socketio`, `aiohttp` 
+
+To run the demo navigate to `demos` directory and execute the following-
+> *The server is bound to port `8080`*
+
+```bash
+# To start the server
+$ python server.py
+
+# To start the client
+$ python client.py
+```
+
+
+### Test
+```bash
+# To test the Processor class 
+$ python test_workflow.py
+
+# To test the Plumber class
+$ python test_plumber.py
+```
+The test does the following-
+Set up a test rig for the `Processor` class. This is test rig plays the role of the `Plumber` *(hopefully)*
+1. Create 2 `Processor` instances with the `reverse` and `append_reverse` coroutines resp.
+2. The input to the `reverse` processor is a single queue, while the `append_reverse` processor takes input from 2 different queues.
+
+--------------------
+
+## API Description
 
 ### class `Processor`
 ```
@@ -22,35 +58,8 @@
                           |                                         | accumulator |      |     
                           └-----------------------------------------└-------------┘------┘     
 ```
-### Demo
-**Prerequisites** - `socketio`, `aiohttp` 
 
-To run the demo navigate to `demos` directory and execute the followingi-
-
-*To start the Server*
-```python
-$ python server.py
-```
-*To start the Client*
-```python
-$ python client.py
-```
-
-#### Points to Keep in Mind
-1. `processor_coro` can be configured only once i.e. function factories are unsupported ??
-
-### Test
-```bash
-# To test the Processor class 
-$ python test_workflow.py
-
-# To test the Plumber class
-$ python test_plumber.py
-```
-The test does the following-
-Set up a test rig for the `Processor` class. This is test rig plays the role of the `Plumber` *(hopefully)*
-1. Create 2 `Processor` instances with the `reverse` and `append_reverse` coroutines resp.
-2. The input to the `reverse` processor is a single queue, while the `append_reverse` processor takes input from 2 different queues.
+-----------------
 
 ### Todo's
 - [ ]  Add `doomsdayQueues` for clean task cancellation
