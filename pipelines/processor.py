@@ -152,14 +152,6 @@ class Processor:
 	def processor_coro(self):
 		return self._processor_coro
 	
-	@property
-	def input_queue(self):
-		return self._input_queue
-
-	@property
-	def output_queue(self):
-		return self._output_queue
-	
 	def __repr__(self) -> str:
 		return f"<Processor:{self._uuid}, coro:{self._processor_coro.__qualname__}>"
 	
