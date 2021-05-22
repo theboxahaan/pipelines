@@ -46,6 +46,7 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 ## API Description
 
 ### class `Processor`
+Refer to the wiki for more [https://github.com/theboxahaan/pipelines/wiki/Processor](https://github.com/theboxahaan/pipelines/wiki/Processor)
 ```
                            ┌-----------------------[Processor]---------------------------┐     
  ┌---------┐         ┌-----└---┐                                                    ┌----┘----┐
