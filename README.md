@@ -78,3 +78,4 @@ Set up a test rig for the `Processor` class. This is test rig plays the role of 
 - [x]  Add option for **non-aggregated** input for multi-input `Processor`s -- is there a need for this ??
 - [ ]  Add an `Event` lock on `Processor`s to control pipelines.
 - [ ]  Backpressure testing ??? How do I do that ?
+- [ ]  Write documentation 
