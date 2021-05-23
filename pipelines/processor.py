@@ -16,8 +16,8 @@ class Processor:
 				 input_queue:asyncio.Queue=None, 
 				 output_queue:asyncio.Queue=None, 
 				 coro=None, 
-				 input_srcs:set=None, 
-				 output_dests:set=None, 
+				 input_srcs:list=None, 
+				 output_dests:list=None, 
 				 env_vars:dict=None,
 				 *args, **kwargs):
 
@@ -45,7 +45,7 @@ class Processor:
 
 		logging.info('instantiated %s', str(self))
 
-	async def _input_handler(self, input_src:set=None):
+	async def _input_handler(self, input_src:list=None):
 		"""
 		Helper Function to handle multiple input sources and populate 
 		the input_queue of each Processor object. 
@@ -62,7 +62,7 @@ class Processor:
 				# (liason q's)
 				cur_input = []
 				if input_src is None or len(input_src) == 0:
-					logging.error('input sources cannot be None or empty set ... exiting input_handler')
+					logging.error('input sources cannot be None or empty list ... exiting input_handler')
 					raise asyncio.CancelledError
 				for _src in input_src:
 					cur_input.append(await _src.get())
@@ -76,7 +76,7 @@ class Processor:
 			logging.error('[input_handler]\n%s', traceback.format_exc())
 			raise 
 
-	async def _output_handler(self, output_dest:set=None):
+	async def _output_handler(self, output_dest:list=None):
 		"""
 		Helper Function to handle multiple output destinations and populate 
 		the output_queue of each Processor object. 
@@ -86,7 +86,7 @@ class Processor:
 			while(True):
 
 				if output_dest is None or len(output_dest) == 0:
-					logging.error('output dests cannot be None or empty set ... exiting output_handler')
+					logging.error('output dests cannot be None or empty list... exiting output_handler')
 					raise asyncio.CancelledError
 
 				# acquire a single output elt from the output queue

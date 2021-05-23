@@ -62,8 +62,8 @@ class Plumber:
 	# caveat - the order of nodes in 'graph' and 'nodes' should be the same
 		try:
 			for _i, (node_name,node_d) in enumerate(nodes_d.items()):
-				c_input_srcs = set([liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None])
-				c_output_dests = set([ i for i in liason_g[_i] if i is not None ])
+				c_input_srcs = list(dict.fromkeys([liason_g[i][_i] for i in range(len(nodes_d)) if liason_g[i][_i] is not None]))
+				c_output_dests = list(dict.fromkeys([ i for i in liason_g[_i] if i is not None ]))
 				kwargs=dict(name=node_name, 
 						coro=self.__coro_map(node_d['coro']), 
 						input_srcs=c_input_srcs,
@@ -96,8 +96,7 @@ class Plumber:
 			input_d_graph = input_d['graph']
 			ig = [[ None for i in range(len(input_d_graph))] for j in range(len(input_d_graph))]
 			# agg_input_dict is a helper data structure to store the asyncio.Queue object if aggregating
-			# inputs. The same Q object is used so that when creating a set in _create_pipeline the repetition
-			# is taken care of
+			# inputs. The same Q object is used and repetition is taken care of.
 			agg_input_dict = {}
 			for input_node, output_node_list in input_d_graph.items():
 				if output_node_list is None:
