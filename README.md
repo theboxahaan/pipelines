@@ -1,15 +1,8 @@
 # `pipelines` -- Create Async Processing Pipelines Quick
+
+<img src="https://user-images.githubusercontent.com/32961084/119255818-539d9400-bbdb-11eb-9df1-26633a1021e7.png" width=46%>
+
 A library to create async pipelines quickly...
-
-```bash
-       _         _ _             
-   ___|_|___ ___| |_|___ ___ ___ 
-  | . | | . | -_| | |   | -_|_ -|
-  |  _|_|  _|___|_|_|_|_|___|___|
-  |_|   |_|                      
-
-
-```
 
 ---------------
 
