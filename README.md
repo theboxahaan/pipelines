@@ -30,10 +30,15 @@ $ python test_workflow.py
 # To test the Plumber class
 $ python test_plumber.py
 ```
-The test does the following-
+The `test_workflow.py` does the following-
 Set up a test rig for the `Processor` class. This is test rig plays the role of the `Plumber` *(hopefully)*
 1. Create 2 `Processor` instances with the `reverse` and `append_reverse` coroutines resp.
 2. The input to the `reverse` processor is a single queue, while the `append_reverse` processor takes input from 2 different queues.
+
+The pipeline set up in `test_plumber.py` is -
+
+<img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45%>
+
 
 --------------------
 
