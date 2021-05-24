@@ -108,7 +108,7 @@ class Processor:
 			logging.info('%s started processor ...', repr(self))
 			while(True):
 				_temp = await self._input_queue.get()
-				async def _processor_task(_temp, self, *Aargs, **Akwargs):
+				async def _processor_task(_temp, *Aargs, **Akwargs):
 					logging.info('starting processor task...')
 					try:
 						_temp = await self._processor_coro(self, _temp, *Aargs, **Akwargs)
@@ -120,7 +120,7 @@ class Processor:
 					except Exception as e:
 						logging.error('[processor_task]\n%s', traceback.format_exc())
 
-				asyncio.create_task(_processor_task( _temp, self, *args, **kwargs))
+				asyncio.create_task(_processor_task( _temp, *args, **kwargs))
 
 		except asyncio.CancelledError:
 			logging.warning('%s processor cancelled', str(self))
