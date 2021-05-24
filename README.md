@@ -135,7 +135,9 @@ where,
 --------------------
 
 ## Demo
-**Prerequisites** - `socketio`, `aiohttp` 
+> The purpose of the demo is to show the **flexibility** in setting up of general pipelines based on user input. 
+>
+>**Prerequisites** - `socketio`, `aiohttp` 
 
 To run the demo navigate to `demos` directory and execute the following-
 > *The server is bound to port `8080`*
