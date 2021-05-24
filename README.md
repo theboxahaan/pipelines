@@ -1,9 +1,16 @@
 # `pipelines` -- Create Async Processing Pipelines Quick!
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
-<img src="https://user-images.githubusercontent.com/32961084/119255818-539d9400-bbdb-11eb-9df1-26633a1021e7.png" width=46%>
+<img src="https://user-images.githubusercontent.com/32961084/119255818-539d9400-bbdb-11eb-9df1-26633a1021e7.png" width=46% align=right>
 
-A library to create async pipelines quickly...
+## What is it ?
+`pipelines` is a library to help developers create async processing pipelines quickly and effortlessly. The motivation being - 
+> The developer should only be worried about defining coroutines that do the actual processing.
+
+## How does it work ?
+A processing pipeline is represented as a directed graph of nodes where each node represents a *processor*. Think of it like a state machine. Each processor has associated with it a coroutine that performs some arbitrary operation on data. That operation could be anything from - reversing a string, querying a database to sending raw data to a cluster for processing.
+
+The `Plumber` class object is responsible for building *processor-consumer* connections between different `Processor`'s. It creates the pipeline based on an input graph and instantiates the `Processor`s.
 
 ---------------
 
