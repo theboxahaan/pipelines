@@ -15,11 +15,15 @@ The `Plumber` class object is responsible for building ***producer-consumer*** c
 ---------------
 
 ## Setting Up a Basic Pipeline
-As an example - albeit a bad one, Lets set up a pipeline to simply *reverse a string*
+As an example - albeit a bad one as it doesn't highlight the good side of `asyncio`, Lets set up a pipeline to simply *reverse a string*
 
 ### Define the Coroutine
 Lets define it in a class to group related coros together
 ```python
+from pipelines.processor import Processor
+from pipelines.plumber import Plumber
+import asyncio
+
 class StringFuncs:
     @classmethod
     async def reverse(cls, self:Processor=None, q_elt:tuple=None):
@@ -88,6 +92,13 @@ And so we can build and run the pipeline as follows -
 ```python
 _t = Plumber(input_d, coro_map=lambda x: x)
 _t.create_pipeline()
+```
+### What it should look like...
+```bash
+output~>  ('afcaae36-213f-46ff-bdb0-ab417fef65c9', '9c56fef714ba-0bdb-ff64-f312-63eaacfa')
+output~>  ('81456b84-efb1-4791-baa9-c9555a70bfbd', 'dbfb07a5559c-9aab-1974-1bfe-48b65418')
+output~>  ('8a480d0f-6f3c-4733-92f9-ae5cfa1748d9', '9d8471afc5ea-9f29-3374-c3f6-f0d084a8')
+...
 ```
 
 -------------------
