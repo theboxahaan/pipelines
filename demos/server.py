@@ -50,7 +50,8 @@ def connect(sid, environ):
 @sio.event
 def process_msg(sid, input_d):
 	
-	Plumber(input_d, coro_map=getcoro, env_vars={'sid':sid})
+	_t = Plumber(input_d, coro_map=getcoro, env_vars={'sid':sid})
+	_t.create_pipeline()
 
 if __name__ == '__main__':
 	web.run_app(app)

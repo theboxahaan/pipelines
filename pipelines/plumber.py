@@ -46,9 +46,10 @@ class Plumber:
 		self.__primary_output_q = [asyncio.Queue()]
 		self.__coro_map         = coro_map
 		self.__env_vars         = env_vars
+		self.__input_d          = input_d
 
-		self._parse_input_graph(input_d)
-		self._create_pipeline(input_d['nodes'], self.__liason_q_graph)
+		self._parse_input_graph(self.__input_d)
+		logging.info('parsed input graph %s', self.__input_d['graph'])
 
 	@property
 	def nodes(self) -> list:
@@ -118,3 +119,8 @@ class Plumber:
 		except Exception as e:
 			logging.error('%s', traceback.format_exc())
 			raise
+	
+	def create_pipeline(self):
+		self._create_pipeline(self.__input_d['nodes'], self.__liason_q_graph)
+
+	
