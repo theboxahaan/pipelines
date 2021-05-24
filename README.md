@@ -10,26 +10,89 @@
 ## How does it work ?
 A processing pipeline is represented as a directed graph of nodes where each node represents a *processor*. Think of it like a state machine. Each processor has associated with it a coroutine that performs some arbitrary operation on data. That operation could be anything from - reversing a string, querying a database to sending raw data to a cluster for processing.
 
-The `Plumber` class object is responsible for building *processor-consumer* connections between different `Processor`'s. It creates the pipeline based on an input graph and instantiates the `Processor`s.
+The `Plumber` class object is responsible for building ***producer-consumer*** connections between different `Processor`'s. It creates the pipeline based on an input graph and instantiates the `Processor`s.
 
 ---------------
 
-### Demo
-**Prerequisites** - `socketio`, `aiohttp` 
+## Setting Up a Basic Pipeline
+As an example - albeit a bad one, Lets set up a pipeline to simply *reverse a string*
 
-To run the demo navigate to `demos` directory and execute the following-
-> *The server is bound to port `8080`*
+### Define the Coroutine
+Lets define it in a class to group related coros together
+```python
+class StringFuncs:
+    @classmethod
+    async def reverse(cls, self:Processor=None, q_elt:tuple=None):
+        return q_elt[0][::-1]
 
-```bash
-# To start the server
-$ python server.py
-
-# To start the client
-$ python client.py
+# This coro shall be called as StringFuncs.reverse     
 ```
-Most of the coroutines have an `asyncio.sleep()` call to simulate an IO bound wait...
+The arguments `self` and `q_elt` have to be there in the coroutine signature as the first two arguments. They contain the references to the `Processor` instance the coro is associated with and the tuple containing the input to the coro respectively.
 
-### Test
+### Adding the `InputProcessor` Coro
+We need a way to provide input to the pipeline. This is achieved by creating a node of type `InputProcessor`. However, the developer does not need to worry about this. The only change that we need to keep in mind is the coroutine signature.
+
+Let's define an input coroutine that generates random hex strings and add it to the `StringFuncs` class.
+```python
+class StringFuncs:
+    ...
+    
+    @classmethod
+    async def input_coro(cls, self:Processor=None, output_q:asyncio.Queue=None):
+        # This coroutine generates 20 random input strings and populates the
+        # output_q of whatever node it runs on.
+        import uuid
+        acc = [ str(uuid.uuid4()) for _ in range(20) ]
+        for i in acc:
+            await output_q.put(i)
+            # unnecessary but async
+            await asyncio.sleep(0)
+```
+
+### Add a node for Output ... cuz why not
+```python
+class StringFuncs:
+    ...
+    
+    @classmethod
+    async def output_coro(cls, self, q_elt):
+        print('output~> ', q_elt)
+```
+
+### Make the Graph
+The pipeline is represented by a graph like so -
+```python
+input_d = {
+    'nodes': {
+        'inp': { 'coro': StringFuncs.input_coro },
+        'rev': { 'coro': StringFuncs.reverse },
+        'out': { 'coro': StringFuncs.output_coro },
+    },
+    'graph': {
+        'inp': ('rev', 'out'),  # output of node 'inp' ~> 'rev' and 'out'
+        'rev': ('out', ),       # and so on...
+        'out': None,
+    },
+}
+```
+### Building the Pipeline using `Plumber`
+Now that the graph defining the pipeline is built, we need to instantiate it using the `Plumber`. The `Plumber` takes two arguments - the *graph* dict and a `coro_map` which is basically a function that maps the ***`coro` value*** in the `nodes` dict to the appropriate `function` object i.e. it maps 
+```bash
+input_d['nodes']['inp']['coro'] ~> StringFuncs.input_coro 
+```
+In our toy application, it can be trivially defined as -
+```python
+coro_map = lamda x: x
+```
+And so we can build and run the pipeline as follows - 
+```python
+_t = Plumber(input_d, coro_map=lambda x: x)
+_t.create_pipeline()
+```
+
+-------------------
+
+## Test
 ```bash
 # To test the Processor class 
 $ python test_workflow.py
@@ -46,8 +109,25 @@ The pipeline set up in `test_plumber.py` is -
 
 <img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45%>
 
-
 --------------------
+
+## Demo
+**Prerequisites** - `socketio`, `aiohttp` 
+
+To run the demo navigate to `demos` directory and execute the following-
+> *The server is bound to port `8080`*
+
+```bash
+# To start the server
+$ python server.py
+
+# To start the client
+$ python client.py
+```
+Most of the coroutines have an `asyncio.sleep()` call to simulate an IO bound wait...
+
+-----------------
+
 
 ## API Description
 
