@@ -22,6 +22,8 @@ Assuming you have already `source`d your venv, `cd` into the root directory of t
 ```
 If everything worked fine, the `docstring` for the `Processor` class should be printed.
 
+---------------
+
 ## Setting Up a Basic Pipeline
 As an example - albeit a bad one as it doesn't highlight the good side of `asyncio`, Lets set up a pipeline to simply *reverse a string*
 
@@ -113,20 +115,22 @@ output~>  ('8a480d0f-6f3c-4733-92f9-ae5cfa1748d9', '9d8471afc5ea-9f29-3374-c3f6-
 
 ## Test
 ```bash
-# To test the Processor class 
-$ python test_workflow.py
 
 # To test the Plumber class
 $ python test_plumber.py
 ```
-The `test_workflow.py` does the following-
-Set up a test rig for the `Processor` class. This is test rig plays the role of the `Plumber` *(hopefully)*
-1. Create 2 `Processor` instances with the `reverse` and `append_reverse` coroutines resp.
-2. The input to the `reverse` processor is a single queue, while the `append_reverse` processor takes input from 2 different queues.
-
 The pipeline set up in `test_plumber.py` is -
 
 <img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45%>
+
+where,
+- `inp` ~> input node that generates a configurable number of random strings
+- `n1`  ~> reverses strings
+- `n2`  ~> to `upper`s string
+- `n3`  ~> to `lower`s string
+- `n4`  ~> output coroutine with `aggregate_input` set to `False`
+
+> *Note that there might be some `asyncio.sleep()`s in a few coros.*
 
 --------------------
 
