@@ -13,6 +13,14 @@ A processing pipeline is represented as a directed graph of nodes where each nod
 The `Plumber` class object is responsible for building ***producer-consumer*** connections between different `Processor`'s. It creates the pipeline based on an input graph and instantiates the `Processor`s.
 
 ---------------
+## Setting Up a Test Environment
+I highly recommend using `virtualenv`s for using/testing the library at this stage - 
+Assuming you have already `source`d your venv, `cd` into the root directory of the repo and
+```bash
+(venv) $ pip install -e .
+(venv) $ echo "from pipelines.processor import Processor\nprint(Processor.__doc__)" | python
+```
+If everything worked fine, the `docstring` for the `Processor` class should be printed.
 
 ## Setting Up a Basic Pipeline
 As an example - albeit a bad one as it doesn't highlight the good side of `asyncio`, Lets set up a pipeline to simply *reverse a string*
