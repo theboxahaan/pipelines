@@ -20,7 +20,7 @@ $ python server.py
 # To start the client
 $ python client.py
 ```
-
+Most of the coroutines have an `asyncio.sleep()` call to simulate an IO bound wait...
 
 ### Test
 ```bash
@@ -44,20 +44,7 @@ The pipeline set up in `test_plumber.py` is -
 
 ## API Description
 
-### class `Processor`
-Refer to the wiki for more [https://github.com/theboxahaan/pipelines/wiki/Processor](https://github.com/theboxahaan/pipelines/wiki/Processor)
-```
-                           ┌-----------------------[Processor]---------------------------┐     
- ┌---------┐         ┌-----└---┐                                                    ┌----┘----┐
- | inputQ1 |  ---->  |         |      ┌-------------┐         ┌--------------┐      |         |
- └---------┘         |  input  | ---> | input_queue |         | output_queue | ---> | output  |
-                     | handler |      └-------------┘         └--------------┘      | handler |
- ┌---------┐         |         |        |     ┌----------------┐    ^               |         |
- | inputQ2 |  ---->  |         |        └---> | processor_coro | ---┘               |         |
- └---------┘         └----┐----┘              └----------------┘    ┌-------------┐ └----┐----┘
-                          |                                         | accumulator |      |     
-                          └-----------------------------------------└-------------┘------┘     
-```
+Refer to the wiki [https://github.com/theboxahaan/pipelines/wiki/Processor](https://github.com/theboxahaan/pipelines/wiki/Processor)
 
 -----------------
 
