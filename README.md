@@ -121,7 +121,7 @@ $ python test_plumber.py
 ```
 The pipeline set up in `test_plumber.py` is -
 
-<img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45%>
+<img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45% align=right>
 
 where,
 - `inp` ~> input node that generates a configurable number of random strings
