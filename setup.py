@@ -6,7 +6,7 @@ with open("README.md", 'r') as fd:
 setuptools.setup(
 	name = "pipelines",
 	version = "0.0.1",
-	author = "theboxahaan",
+	author = "Ahaan Dabholkar",
 	author_email = "ahaand@iitbhilai.ac.in",
 	description = "Async Pipeline Generator",
 	long_description = long_description,
