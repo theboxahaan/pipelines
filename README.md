@@ -111,6 +111,8 @@ output~>  ('8a480d0f-6f3c-4733-92f9-ae5cfa1748d9', '9d8471afc5ea-9f29-3374-c3f6-
 ...
 ```
 
+The example code can be found in `demos/readme_demo.py`
+
 -------------------
 
 ## Test
