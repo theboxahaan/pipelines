@@ -31,17 +31,11 @@ class Processor:
 		self._output_dests       = output_dests
 		self.env_vars            = env_vars
 
-		self._input_handler_task = asyncio.create_task( 
-			self._input_handler(self._input_srcs),
-			name=self._uuid + self._input_handler.__qualname__)
+		self._input_handler_task = asyncio.create_task(self._input_handler(self._input_srcs))
 
-		self._processor_task = asyncio.create_task(
-			self._processor(*args, **kwargs),
-			name=self._uuid + self._processor_coro.__qualname__)
+		self._processor_task = asyncio.create_task(self._processor(*args, **kwargs))
 
-		self._output_handler_task = asyncio.create_task(
-			self._output_handler(self._output_dests),
-			name=self._uuid + self._output_handler.__qualname__)
+		self._output_handler_task = asyncio.create_task(self._output_handler(self._output_dests))
 
 		logging.info('instantiated %s', str(self))
 
