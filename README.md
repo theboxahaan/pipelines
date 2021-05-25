@@ -5,10 +5,13 @@
 
 ## What is it ?
 `pipelines` is a library to help developers create async processing pipelines quickly and effortlessly. The motivation being - 
-> The developer should only be worried about defining coroutines that do the actual processing.
+> *"The developer should only be worried about defining coroutines that **DO** the actual processing"*
 
 ## How does it work ?
-A processing pipeline is represented as a directed graph of nodes where each node represents a *processor*. Think of it like a state machine. Each processor has associated with it a coroutine that performs some arbitrary operation on data. That operation could be anything from - reversing a string, querying a database to sending raw data to a cluster for processing.
+> *The central idea behind `pipelines` is -* ***a series of producer-consumer relationships between connected nodes***
+
+
+A processing ***pipeline*** is represented as a *directed graph* of nodes where each node represents a *processor*. Each processor has associated with it a coroutine that performs some arbitrary operation. This operation could be anything, ranging from - reversing a string, querying a database to sending raw data to a cluster for processing.
 
 The `Plumber` class object is responsible for building ***producer-consumer*** connections between different `Processor`'s. It creates the pipeline based on an input graph and instantiates the `Processor`s.
 
@@ -43,7 +46,7 @@ class StringFuncs:
 ```
 The arguments `self` and `q_elt` have to be there in the coroutine signature as the first two arguments. They contain the references to the `Processor` instance the coro is associated with and the tuple containing the input to the coro respectively.
 
-### Adding the `InputProcessor` Coro
+### Adding the `InputProcessor` Node
 We need a way to provide input to the pipeline. This is achieved by creating a node of type `InputProcessor`. However, the developer does not need to worry about this. The only change that we need to keep in mind is the coroutine signature.
 
 Let's define an input coroutine that generates random hex strings and add it to the `StringFuncs` class.
