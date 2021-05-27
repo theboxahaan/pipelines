@@ -1,7 +1,7 @@
 # `pipelines` -- Create Async Processing Pipelines Quick!
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
-<img src="https://user-images.githubusercontent.com/32961084/119255818-539d9400-bbdb-11eb-9df1-26633a1021e7.png" width=46% align=right>
+<img src="https://user-images.githubusercontent.com/32961084/119838474-11e55400-bf21-11eb-89d3-22108b0f4af0.png" width=46% align=right>
 
 ## What is it ?
 `pipelines` is a library to help developers create async processing pipelines quickly and effortlessly. The motivation being - 
