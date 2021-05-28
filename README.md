@@ -4,7 +4,7 @@
 <img src="https://user-images.githubusercontent.com/32961084/119838474-11e55400-bf21-11eb-89d3-22108b0f4af0.png" width=46% align=right>
 
 ## What is it ?
-`pipelines` is a library to help developers create async processing pipelines quickly and effortlessly. The motivation being - 
+`pipelines` is a library to help server developers create async processing pipelines quickly and effortlessly. The motivation being - 
 > *"The developer should only be worried about defining coroutines that **DO** the actual processing"*
 
 ## How does it work ?
