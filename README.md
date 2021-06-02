@@ -174,12 +174,13 @@ Refer to the wiki [https://github.com/theboxahaan/pipelines/wiki/Processor](http
 - [ ]  Add signal handler to handle script exit
 - [x]  Add tests for Processor and Plumber
 - [x]  Pass args through input ?
-- [x]  Write a proper mechanism for getting function object from string~~
-- [x]  `Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.~~
+- [x]  Write a proper mechanism for getting function object from string
+- [x]  `Plumber` is the only class that interacts with the established context. Need to find a way to make context variables available to `Processor` instances.
 - [ ]  Make a `TypeVar` for Queues
 - [ ]  **Write cleanup coros** -- first introduce types of Queues
 - [x]  Write a demo with `aiohttp` or something...
 - [x]  Add option for **non-aggregated** input for multi-input `Processor`s -- is there a need for this ??
-- [ ]  Add an `Event` lock on `Processor`s to control pipelines.
-- [ ]  Backpressure testing ??? How do I do that ?
+- [ ]  ~~Add an `Event` lock on `Processor`s to control pipelines.~~
+- [x]  Backpressure testing ??? How do I do that ? - Issue Raised
 - [ ]  Write documentation 
+- [ ]  Enable running different nodes on different machines - distribute the graph
