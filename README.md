@@ -184,3 +184,5 @@ Refer to the wiki [https://github.com/theboxahaan/pipelines/wiki/Processor](http
 - [x]  Backpressure testing ??? How do I do that ? - Issue Raised
 - [ ]  Write documentation 
 - [ ]  Enable running different nodes on different machines - distribute the graph
+- [ ]  Add optional dependancies `aredis` for the distributed setup
+- [ ]  Add a proper demo for both cases
