@@ -19,10 +19,13 @@ class Processor:
 				 input_srcs:list=None, 
 				 output_dests:list=None, 
 				 env_vars:dict=None,
+				 queue_size:int=0,
 				 *args, **kwargs):
 
-		self._input_queue        = asyncio.Queue() if input_queue is None else input_queue
-		self._output_queue       = asyncio.Queue() if output_queue is None else output_queue
+		if queue_size == 0 :
+			logging.warning('unbounded input_queue, output_queue')
+		self._input_queue        = asyncio.Queue(maxsize=queue_size) if input_queue is None else input_queue
+		self._output_queue       = asyncio.Queue(maxsize=queue_size) if output_queue is None else output_queue
 		self._processor_coro     = coro
 		self._uuid               = str(uuid.uuid4())
 		self._name               = str(name)
