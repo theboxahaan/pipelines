@@ -185,7 +185,7 @@ Refer to the wiki [https://github.com/theboxahaan/pipelines/wiki/Processor](http
 - [x]  Add option for **non-aggregated** input for multi-input `Processor`s -- is there a need for this ??
 - [ ]  ~~Add an `Event` lock on `Processor`s to control pipelines.~~
 - [x]  Backpressure testing ??? How do I do that ? - Issue Raised
-- [ ]  Write documentation 
+- [x]  Write documentation 
 - [ ]  Enable running different nodes on different machines - distribute the graph
 - [ ]  Add optional dependancies `aredis` for the distributed setup
 - [ ]  Add a proper demo for both cases
