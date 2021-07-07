@@ -189,3 +189,4 @@ Refer to the wiki [https://github.com/theboxahaan/pipelines/wiki/Processor](http
 - [ ]  Enable running different nodes on different machines - distribute the graph
 - [ ]  Add optional dependancies `aredis` for the distributed setup
 - [ ]  Add a proper demo for both cases
+- [ ]  Add performance metrics based on the number of elements in q per-second (Is that a good metric 🤔 )
