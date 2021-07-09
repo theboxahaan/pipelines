@@ -102,7 +102,7 @@ input_d['nodes']['inp']['coro'] ~> StringFuncs.input_coro
 ```
 In our toy application, it can be trivially defined as -
 ```python
-coro_map = lamda x: x
+coro_map = lambda x: x
 ```
 And so we can build and run the pipeline as follows - 
 ```python
