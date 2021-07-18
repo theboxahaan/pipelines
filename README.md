@@ -1,6 +1,5 @@
 # `pipelines` -- Create Async Processing Pipelines Quick!
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
-![](https://img.shields.io/github/issues/theboxahaan/pipelines)
 ![](https://img.shields.io/github/license/theboxahaan/pipelines)
 ![](https://img.shields.io/github/last-commit/theboxahaan/pipelines)
 
