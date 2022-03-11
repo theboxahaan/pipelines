@@ -128,7 +128,16 @@ $ python test_plumber.py
 ```
 The pipeline set up in `test_plumber.py` is -
 
-<img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45% align=right>
+<!--<img src="https://user-images.githubusercontent.com/32961084/119289456-4084d580-bc68-11eb-90d6-47a76a1d9fa9.png" width=45% align=right>-->
+```mermaid
+  graph LR;
+      inp((inp))-->n1((n1));
+      n1((n1))-->n2((n2));
+      n1((n1))-->n3((n3));
+      n2((n2))-->n3((n3));
+      n2((n2))-->n4((n4));
+      n3((n3))-->n4((n4));
+```
 
 where,
 - `inp` ~> input node that generates a configurable number of random strings
