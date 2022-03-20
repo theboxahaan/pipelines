@@ -198,3 +198,4 @@ Refer to the wiki [https://github.com/theboxahaan/pipelines/wiki/Processor](http
 - [ ]  Add optional dependancies `aredis` for the distributed setup using `extras_require` in `setup.py`
 - [ ]  Add a proper demo for both cases
 - [ ]  Add performance metrics based on the number of elements in q per-second (Is that a good metric 🤔 )
+- [ ]  Write an `NCCL` backend for this to be used w/ distributed training
